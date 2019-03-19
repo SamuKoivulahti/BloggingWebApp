@@ -1,5 +1,7 @@
 package tamk.tiko.BloggingWebApp;
 
 public interface HtmlHelper {
-    public String createHtmlPage(String title, String content);
+    String createHtmlPage(String content);
+    String createBlogPost(String name, String title, String content);
+    String createHtmlTable(String[][] data);
 }

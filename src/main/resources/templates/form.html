@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <meta charset="UTF-8">
         <title>Blogging Application</title>
     </head>
     <body>
@@ -10,5 +9,12 @@
             <input type="text" name="content"/>
             <input type="submit">
         </form>
+
+        <table>
+            <tr th:each="blog : ${blogs}">
+                <td><span th:text="${blog.title}"></span></td>
+                <td><span th:text="${blog.content}"></span></td>
+            </tr>
+        </table>
     </body>
 </html>
