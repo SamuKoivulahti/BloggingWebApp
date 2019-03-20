@@ -7,12 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
 public class BasicController {
     private List<BlogPost> blogs = new ArrayList<>();
+    private int id = 0;
 
     @Autowired
     HtmlHelper htmlHelper;
@@ -25,14 +25,30 @@ public class BasicController {
 
     @PostMapping("/form")
     public String postForm(@RequestParam ("content") String content, @RequestParam ("title") String title, Model model) {
-        BlogPost bp = new BlogPost(1, "Default", title, content);
-        //String[] blogPostContent = {bp.getTitle(), bp.getName(),bp.getContent()};
+        BlogPost bp = new BlogPost(id, "UserName", title, content);
+        id++;
+        blogs.add(0, bp);
 
-        //blogs.add(htmlHelper.createHtmlTable(blogPostContent));
-        blogs.add(bp);
-        Collections.reverse(blogs);
+        System.out.println("Something Happened with postForm and ID is: " + bp.toString());
 
         model.addAttribute("blogs", blogs);
         return "form";
+    }
+
+    @PostMapping("/form/{id}")
+    public String postDelete(@PathVariable int id, Model model) {
+
+        System.out.println("Something Happened with postDelete and ID is: " + id);
+
+        //blogs.add(htmlHelper.createHtmlTable(blogPostContent));
+        for (int i = 0; i < blogs.size(); i++) {
+            if (id == blogs.get(i).getId()) {
+                blogs.remove(i);
+                break;
+            }
+        }
+
+        model.addAttribute("blogs", blogs);
+        return "redirect:/";
     }
 }

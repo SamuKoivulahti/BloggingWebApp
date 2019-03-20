@@ -4,23 +4,26 @@
         <title>Blogging Application</title>
     </head>
     <body>
+    <h1>Jummi Jammi Blogging</h1>
         <form action="form" method="post">
-            <input type="text" name="title">
-            <input type="text" name="content">
+            <input type="text" placeholder="Title" name="title">
+            <input type="text" placeholder="Blog Content" name="content">
             <input type="submit">
         </form>
-        <tr th:each="blog : ${blogs}">
-            <table border="1" border-collapse="collapse">
-                <tr>
-                    <td text-align="left"><span th:text="${blog.title}"></span></td>
-                    <td text-align="right"><span th:text="${blog.name}"></span></td>
-                </tr>
-                <tr>
-                    <td><span th:text="${blog.content}"></span></td>
-                    <input type="button" value="edit" onclick="">
-                    <input type="button" value="delete" onclick="">
-                </tr>
-            </table>
-        </tr>
+        <table th:each="blog : ${blogs}" border="1" border-collapse="collapse" style="width:100%;">
+            <tr>
+                <td style="text-align:center;"><span th:text="${blog.title}"></span></td>
+                <td style="width:5%;text-align:center;"><span th:text="${blog.name}"></span></td>
+            </tr>
+            <tr>
+                <td><span th:text="${blog.content}"></span></td>
+                <td style="vertical-align:center;text-align:center;width:5%;">
+                    <p><input type="button" value="edit" onclick=""></p>
+                    <form th:action="@{/form/{id}(id=${blog.id})}" th:object="${blog}" method="post">
+                        <button type="submit" value="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>
