@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -29,6 +30,7 @@ public class BasicController {
 
         //blogs.add(htmlHelper.createHtmlTable(blogPostContent));
         blogs.add(bp);
+        Collections.reverse(blogs);
 
         model.addAttribute("blogs", blogs);
         return "form";

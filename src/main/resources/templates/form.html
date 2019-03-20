@@ -6,15 +6,21 @@
     <body>
         <form action="form" method="post">
             <input type="text" name="title">
-            <input type="text" name="content"/>
+            <input type="text" name="content">
             <input type="submit">
         </form>
-
-        <table>
-            <tr th:each="blog : ${blogs}">
-                <td><span th:text="${blog.title}"></span></td>
-                <td><span th:text="${blog.content}"></span></td>
-            </tr>
-        </table>
+        <tr th:each="blog : ${blogs}">
+            <table border="1" border-collapse="collapse">
+                <tr>
+                    <td text-align="left"><span th:text="${blog.title}"></span></td>
+                    <td text-align="right"><span th:text="${blog.name}"></span></td>
+                </tr>
+                <tr>
+                    <td><span th:text="${blog.content}"></span></td>
+                    <input type="button" value="edit" onclick="">
+                    <input type="button" value="delete" onclick="">
+                </tr>
+            </table>
+        </tr>
     </body>
 </html>
