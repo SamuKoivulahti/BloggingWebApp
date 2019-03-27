@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Date;
 import java.util.Optional;
 
 
@@ -21,6 +22,11 @@ public class BasicController {
     public BlogPost getBlogPost(@PathVariable int id) {
 
         return repository.findById(id).orElseThrow(() -> new NotFoundException(id, "BlogPost " + id + " not found"));
+    }
+
+    @GetMapping("/api/hello")
+    public String hello() {
+        return "Hello, the time at the server is now " + new Date() + "\n";
     }
 
     @GetMapping("blogs")
