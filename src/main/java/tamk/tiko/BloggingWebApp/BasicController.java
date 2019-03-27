@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Date;
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public class BasicController {
     @Autowired
     MyRepository repository;
 
-    @GetMapping("blogs/{id:\\d}")
+    @GetMapping("/blogs/{id:\\d}")
     public BlogPost getBlogPost(@PathVariable int id) {
 
         return repository.findById(id).orElseThrow(() -> new NotFoundException(id, "BlogPost " + id + " not found"));
@@ -29,20 +30,20 @@ public class BasicController {
         return "Hello, the time at the server is now " + new Date() + "\n";
     }
 
-    @GetMapping("blogs")
+    @GetMapping("/blogs")
     public Iterable<BlogPost> getAllBlogPosts() {
         return repository.findAll();
     }
 
-    @DeleteMapping("blogs/{id:\\d}")
+    @DeleteMapping("/blogs/{id:\\d}")
     public ResponseEntity<Void> removeBlogPost(@PathVariable int id) {
         repository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("blogs")
-    public ResponseEntity<Void> addBlogPost(@RequestParam String name, @RequestParam String title, @RequestParam String content, UriComponentsBuilder builder) {
-        BlogPost blogPost = new BlogPost(name, title, content);
+    @PostMapping("/blogs")
+    public ResponseEntity<Void> addBlogPost(@RequestParam String user, @RequestParam String title, @RequestParam String content, UriComponentsBuilder builder) {
+        BlogPost blogPost = new BlogPost(user, title, content);
         repository.save(blogPost);
 
         return getVoidResponseEntity(builder, blogPost, HttpStatus.CREATED);
@@ -50,14 +51,14 @@ public class BasicController {
 
     private ResponseEntity<Void> getVoidResponseEntity(UriComponentsBuilder builder, BlogPost blogPost, HttpStatus status) {
 
-        UriComponents uriComponents = builder.path("blogs/{id}").buildAndExpand(blogPost.getId());
+        UriComponents uriComponents = builder.path("/blogs/{id}").buildAndExpand(blogPost.getId());
         HttpHeaders header = new HttpHeaders();
-        header.setLocation(uriComponents.toUri());
+        header.setLocation(URI.create("/"));
 
         return new ResponseEntity<Void>(header, status);
     }
 
-    @PostMapping("blogs/edit/{id:\\d}")
+    @PostMapping("/blogs/edit/{id:\\d}")
     public ResponseEntity<Void> editBlog(@PathVariable int id, @RequestParam String title, @RequestParam int authorId, @RequestParam String content, UriComponentsBuilder builder) {
         Optional<BlogPost> optionalBlogPost = repository.findById(id);
         BlogPost blogPost = optionalBlogPost.get();

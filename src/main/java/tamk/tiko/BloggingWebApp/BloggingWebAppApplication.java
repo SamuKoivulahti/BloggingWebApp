@@ -21,6 +21,8 @@ public class BloggingWebAppApplication implements CommandLineRunner {
         userRepository.save(user1);
         userRepository.save(user2);
 
+        blogPostRepository.save(new BlogPost(user1.getName(), "Init", "Content"));
+        blogPostRepository.save(new BlogPost(user2.getName(), "Init1241", "Conte2444nt"));
     }
 
     public static void main(String[] args) {
