@@ -42,7 +42,7 @@ public class BasicController {
 
     @PostMapping("blogs")
     public ResponseEntity<Void> addBlogPost(@RequestParam String name, @RequestParam String title, @RequestParam String content, UriComponentsBuilder builder) {
-        BlogPost blogPost = new BlogPost(0 ,name, title, content);
+        BlogPost blogPost = new BlogPost(name, title, content);
         repository.save(blogPost);
 
         return getVoidResponseEntity(builder, blogPost, HttpStatus.CREATED);

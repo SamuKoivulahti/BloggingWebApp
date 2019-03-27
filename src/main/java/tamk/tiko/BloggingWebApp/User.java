@@ -17,18 +17,16 @@ public class User {
     @Column
     private boolean admin;
 
-    public User(int userId, String name, boolean admin) {
-        this.userId = userId;
+    public User() {
+    }
+
+    public User(String name, boolean admin) {
         this.name = name;
         this.admin = admin;
     }
 
     public int getUserId() {
         return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getName() {

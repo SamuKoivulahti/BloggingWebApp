@@ -9,11 +9,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BloggingWebAppApplication implements CommandLineRunner {
 
 	@Autowired
-    HtmlHelper htmlHelper;
+    UserRepository userRepository;
+
+	@Autowired
+    MyRepository blogPostRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        //htmlHelper.createHtmlPage("Blog", "Mitä ikinä sinne menee sinne bodin sisään.");
+        User user1 = new User("JoniAlanko", true);
+        User user2 = new User("SamuKoivulahti", false);
+        userRepository.save(user1);
+        userRepository.save(user2);
+
     }
 
     public static void main(String[] args) {

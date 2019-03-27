@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class BlogPost {
 
     @Id
+    @GeneratedValue
     private int id;
     @Column
     private String name;
@@ -14,8 +15,10 @@ public class BlogPost {
     @Column
     private String content;
 
-    public BlogPost(int id, String name, String title, String content) {
-        this.id = id;
+    public BlogPost() {
+    }
+
+    public BlogPost(String name, String title, String content) {
         this.name = name;
         this.title = title;
         this.content = content;
