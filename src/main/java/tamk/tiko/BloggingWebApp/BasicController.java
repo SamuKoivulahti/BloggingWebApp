@@ -53,7 +53,7 @@ public class BasicController {
 
         UriComponents uriComponents = builder.path("/blogs/{id}").buildAndExpand(blogPost.getId());
         HttpHeaders header = new HttpHeaders();
-        header.setLocation(URI.create("/"));
+        header.setLocation(uriComponents.toUri());
 
         return new ResponseEntity<Void>(header, status);
     }
