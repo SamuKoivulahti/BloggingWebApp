@@ -19,6 +19,11 @@ public class BasicController {
     @Autowired
     MyRepository repository;
 
+    @GetMapping("blogs/search/{value}")
+    public Iterable<BlogPost> searchBlogPost(@PathVariable String value) {
+        return repository.findBlogPostByTitleContainingIgnoreCaseOrContentContainingIgnoreCaseOrNameContainingIgnoreCase(value, value, value);
+    }
+
     @GetMapping("/blogs/{id:\\d}")
     public BlogPost getBlogPost(@PathVariable int id) {
 

@@ -6,6 +6,7 @@ import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import TabMenuBar from './TabMenuBar';
 import AddPost from './AddPost'
+import SearchPage from './SearchPage'
 
 class FrontPage extends Component {
 
@@ -16,7 +17,8 @@ class FrontPage extends Component {
     tabMenus() {
         return [
             {index: 0, label: 'Blog Posts', component: <ToTable/>},
-            {index: 1, label: '+Add Post', component: <AddPost/>}
+            {index: 1, label: '+Add Post', component: <AddPost/>},
+            {index: 2, label: 'Search', component: <SearchPage/>}
         ];
     }
 
