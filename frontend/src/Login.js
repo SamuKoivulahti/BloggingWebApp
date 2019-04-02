@@ -18,8 +18,6 @@ class Login extends Component {
         .then(data => {
           this.setState({fetchedUser: data})
         console.log(data)});
-
-
   }
 
   render() {
