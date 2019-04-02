@@ -64,7 +64,7 @@ public class BasicController {
     }
 
     @PostMapping("/blogs/edit/{id:\\d}")
-    public ResponseEntity<Void> editBlog(@PathVariable int id, @RequestParam String title, @RequestParam int authorId, @RequestParam String content, UriComponentsBuilder builder) {
+    public ResponseEntity<Void> editBlog(@PathVariable int id, @RequestParam String title, @RequestParam String content, UriComponentsBuilder builder) {
         Optional<BlogPost> optionalBlogPost = repository.findById(id);
         BlogPost blogPost = optionalBlogPost.get();
         blogPost.setTitle(title);
