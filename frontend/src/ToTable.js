@@ -11,6 +11,7 @@ class ToTable extends Component {
     super(props);
 
     this.createTab = this.createTab.bind(this);
+    this.createTitle = this.createTitle.bind(this);
     this.createPostList = this.createPostList.bind(this);
     this.actionButton = this.actionButton.bind(this);
     this.state = {posts: []};
@@ -29,8 +30,19 @@ class ToTable extends Component {
     return (<Accordion multiple={true}>{this.state.posts.map(post => this.createTab(post))}</Accordion>);
   }
 
+  createTitle(post) {
+    let text = post.title + " | " + post.name;
+    return text
+  }
+
   createTab(post) {
-    return (<AccordionTab key={post.id} header={post.title}>{post.content}<Link to={`/blogs/${post.id}`}><Button label="View"/></Link></AccordionTab>);
+    return (<AccordionTab key={post.id} header={this.createTitle(post)}>
+            {post.content}
+            <Link to={`/blogs/${post.id}`}>
+                <Button style={{float: 'right'}} label="View"/>
+            </Link>
+            <p><br/>{post.name}</p>
+        </AccordionTab>);
   }
 
   actionButton() {

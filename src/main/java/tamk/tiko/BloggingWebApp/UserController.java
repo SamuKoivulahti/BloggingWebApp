@@ -40,6 +40,11 @@ public class UserController {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "Cannot find user with id  " +  id));
     }
 
+    @GetMapping("/users/{name:\\s}")
+    public User getUserByName(@PathVariable String name) {
+        return userRepository.findUserByName(name);
+    }
+
     @GetMapping("/users")
     public Iterable<User> getUsers() {
         return userRepository.findAll();
