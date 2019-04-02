@@ -4,6 +4,7 @@ import ToTable from './ToTable';
 import { Redirect } from 'react-router';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
+import {Accordion, AccordionTab} from 'primereact/accordion'
 
 class SearchPage extends Component {
 
@@ -11,26 +12,35 @@ class SearchPage extends Component {
         super(properties);
         this.getTable = this.getTable.bind(this);
         this.searchedList = this.searchedList.bind(this);
-        this.state = {searched: ''};
+        this.state = {fetchedPosts: [], posts: ''};
     }
 
     getTable() {
-        let data = new FormData();
-        fetch('http://localhost:8080/blogs/search/${this.state.searched}')
+        let url = window.location.origin;
+        fetch(`${url}/blogs/search/${this.state.posts}`)
         .then(response => response.json())
-        .then(data => this.state.searchedList)
+        .then(data => {
+        this.setState({fetchedPosts: data})
+        console.log(data)});
     }
 
     searchedList() {
+        return (<Accordion multiple={true}>{this.state.fetchedPosts.map(post => this.createTab(post))}</Accordion>);
+    }
 
+    createTab(post) {
+        return (<AccordionTab key={post.id} header={post.title}>{post.content}<Link to={`/blogs/${post.id}`}><Button label="View"/></Link></AccordionTab>);
     }
 
     render() {
-    const {searched} = this.state;
+        const {posts} = this.state;
         return (
             <div>
-                <InputText placeholder="Search" value={this.state.searched} onChange={e => this.setState({searched: e.target.value})}/>
-                <Button label="Search" onClick={() => this.getTable("http://localhost:8080/blogs/search/${this.state.searched}")}/>
+                <div>
+                    <InputText placeholder="search" value={this.state.posts} onChange={e => this.setState({posts: e.target.value})}/>
+                    <Button label="Search" onClick={() => this.getTable()}/>
+                </div>
+                {this.searchedList()}
             </div>
         );
     }
