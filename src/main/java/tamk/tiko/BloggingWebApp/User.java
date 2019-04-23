@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.ArrayList;
 
 @Entity
 public class User {
@@ -17,12 +18,16 @@ public class User {
     @Column
     private boolean admin;
 
+    @Column
+    private ArrayList<BlogPost> like;
+
     public User() {
     }
 
     public User(String name, boolean admin) {
         this.name = name;
         this.admin = admin;
+        like = new ArrayList<>();
     }
 
     public int getUserId() {
@@ -43,6 +48,18 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public ArrayList<BlogPost> getLike() {
+        return like;
+    }
+
+    public void setLike(ArrayList<BlogPost> like) {
+        this.like = like;
+    }
+
+    public void addLike(BlogPost blogPost) {
+        like.add(blogPost);
     }
 
     @Override

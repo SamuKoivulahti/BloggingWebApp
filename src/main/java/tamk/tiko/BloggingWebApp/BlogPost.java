@@ -1,6 +1,8 @@
 package tamk.tiko.BloggingWebApp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 
 @Entity
 public class BlogPost {
@@ -14,6 +16,8 @@ public class BlogPost {
     private String title;
     @Column
     private String content;
+    @Column
+    private ArrayList<String> comments;
 
     public BlogPost() {
     }
@@ -22,6 +26,7 @@ public class BlogPost {
         this.name = name;
         this.title = title;
         this.content = content;
+        comments = new ArrayList<>();
     }
 
     public void setId(int id) {
@@ -56,6 +61,18 @@ public class BlogPost {
         this.content = content;
     }
 
+    public ArrayList<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<String> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(String comment) {
+        comments.add(comment);
+    }
+
     @Override
     public String toString() {
         return "BlogPost{" +
@@ -63,6 +80,7 @@ public class BlogPost {
                 ", name='" + name + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", comments=" + comments +
                 '}';
     }
 }

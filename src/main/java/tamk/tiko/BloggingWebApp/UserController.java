@@ -49,4 +49,5 @@ public class UserController {
     public Iterable<User> getUsers() {
         return userRepository.findAll();
     }
+
 }

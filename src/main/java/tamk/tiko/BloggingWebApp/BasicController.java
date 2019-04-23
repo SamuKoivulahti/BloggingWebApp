@@ -73,4 +73,14 @@ public class BasicController {
 
         return getVoidResponseEntity(builder, blogPost, HttpStatus.CREATED);
     }
+
+    @PostMapping("/blogs/addComment/{id:\\d}")
+    public ResponseEntity<Void> addComment(@PathVariable int id, @RequestParam String content, UriComponentsBuilder builder) {
+        Optional<BlogPost> optionalBlogPost = repository.findById(id);
+        BlogPost blogPost = optionalBlogPost.get();
+        blogPost.addComment(content);
+        repository.save(blogPost);
+
+        return getVoidResponseEntity(builder, blogPost, HttpStatus.CREATED);
+    }
 }
