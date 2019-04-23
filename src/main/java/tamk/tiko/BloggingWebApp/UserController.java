@@ -42,7 +42,7 @@ public class UserController {
 
     @GetMapping("/users/{name}")
     public User getUserByName(@PathVariable String name) {
-        return userRepository.findByName(name);
+        return userRepository.findByNameEquals(name);
     }
 
     @GetMapping("/users")
