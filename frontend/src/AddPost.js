@@ -10,13 +10,15 @@ class AddPost extends Component {
 
     constructor(properties) {
         super(properties);
-        this.state = {user: '', title: '', content: ''};
+        this.state = {title: '', content: ''};
         this.post = this.post.bind(this);
     }
 
-    post(url='') {
+    post() {
+        let url = window.location.origin + "/blogs";
+
         let data = new FormData();
-        data.append("user", this.state.user)
+        data.append("user", localStorage.getItem("user"))
         data.append("title", this.state.title)
         data.append("content", this.state.content)
         fetch(url, {
@@ -33,10 +35,9 @@ class AddPost extends Component {
         const {user} = this.state;
         return (
             <div>
-                <InputText placeholder="Username" value={this.state.user} onChange={e => this.setState({user: e.target.value})}/>
                 <InputText placeholder="Title" value={this.state.title} onChange={e => this.setState({title: e.target.value})}/>
                 <InputText placeholder="Content" value={this.state.content} onChange={e => this.setState({content: e.target.value})}/>
-                <Button label="Post" onClick={() => this.post("http://localhost:8080/blogs")}/>
+                <Button label="Post" onClick={() => this.post()}/>
             </div>
         );
     }
