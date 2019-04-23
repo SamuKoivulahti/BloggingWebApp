@@ -18,8 +18,8 @@ public class User {
     @Column
     private boolean admin;
 
-    @Column
-    private ArrayList<BlogPost> like;
+    /**@Column
+    private ArrayList<BlogPost> like;*/
 
     public User() {
     }
@@ -27,7 +27,7 @@ public class User {
     public User(String name, boolean admin) {
         this.name = name;
         this.admin = admin;
-        like = new ArrayList<>();
+        //like = new ArrayList<>();
     }
 
     public int getUserId() {
@@ -50,6 +50,7 @@ public class User {
         this.admin = admin;
     }
 
+    /**
     public ArrayList<BlogPost> getLike() {
         return like;
     }
@@ -60,7 +61,7 @@ public class User {
 
     public void addLike(BlogPost blogPost) {
         like.add(blogPost);
-    }
+    }*/
 
     @Override
     public String toString() {
