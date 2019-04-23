@@ -18,16 +18,24 @@ class FrontPage extends Component {
     tabMenus() {
         return [
             {index: 0, label: 'Blog Posts', component: <ToTable/>},
+            {index: 1, label: 'Search', component: <SearchPage/>},
+            {index: 2, label: 'Login', component: <Login/>}
+        ];
+    }
+
+    tabMenusLogged() {
+        return [
+            {index: 0, label: 'Blog Posts', component: <ToTable/>},
             {index: 1, label: '+Add Post', component: <AddPost/>},
             {index: 2, label: 'Search', component: <SearchPage/>},
-            {index: 3, label: 'Login', component: <Login/>}
+            {index: 3, label: localStorage.getItem("user"), component: <Login/>}
         ];
     }
 
     render() {
         return (
             <div>
-                <div><TabMenuBar items={this.tabMenus()}/></div>
+                <div><TabMenuBar items={localStorage.getItem("loggedin") === "true" ? this.tabMenusLogged() : this.tabMenus()}/></div>
             </div>
         );
     }
