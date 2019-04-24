@@ -81,7 +81,6 @@ class Login extends Component {
     localStorage.setItem("admin", success.admin);
     localStorage.setItem("loggedin", "true");
     this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: ''});
-    alert("Update page, POST is a bitch and we suck!");
   }
 
   usernameCheck(loginAttempt) {

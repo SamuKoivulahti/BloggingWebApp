@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import ToTable from './ToTable';
 import { Redirect } from 'react-router';
 import {InputText} from 'primereact/inputtext';
+import {InputTextarea} from 'primereact/inputtextarea';
 import {Button} from 'primereact/button';
 import TabMenuBar from './TabMenuBar';
 
@@ -36,7 +37,9 @@ class AddPost extends Component {
         return (
             <div>
                 <InputText placeholder="Title" value={this.state.title} onChange={e => this.setState({title: e.target.value})}/>
-                <InputText placeholder="Content" value={this.state.content} onChange={e => this.setState({content: e.target.value})}/>
+                <br/>
+                <InputTextarea rows={5} cols={30} placeholder="Content" value={this.state.content} onChange={e => this.setState({content: e.target.value})}/>
+                <br/>
                 <Button label="Post" onClick={() => this.post()}/>
             </div>
         );

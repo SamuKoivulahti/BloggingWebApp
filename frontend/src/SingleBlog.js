@@ -128,7 +128,6 @@ class SingleBlog extends Component {
                     .catch(error => console.log(error));
               this.setState({show: false})
               console.log(this.state)
-              window.location.assign("/");
     }
 
     deleteComment(id) {
@@ -145,7 +144,6 @@ class SingleBlog extends Component {
              .catch(error => console.log(error));
         this.setState({show: false})
         console.log(this.state)
-        window.location.reload();
     }
 
     addComment() {
