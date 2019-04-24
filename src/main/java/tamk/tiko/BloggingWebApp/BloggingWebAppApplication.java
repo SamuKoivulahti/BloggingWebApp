@@ -16,8 +16,8 @@ public class BloggingWebAppApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User user1 = new User("JoniAlanko", true);
-        User user2 = new User("SamuKoivulahti", false);
+        User user1 = new User("JoniAlanko", true, "Salasana1");
+        User user2 = new User("SamuKoivulahti", false, "Salasana2");
         userRepository.save(user1);
         userRepository.save(user2);
 
