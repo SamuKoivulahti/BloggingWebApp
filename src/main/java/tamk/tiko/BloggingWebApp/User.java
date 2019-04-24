@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -21,8 +22,8 @@ public class User {
     @Column
     private String pass;
 
-    /**@Column
-    private ArrayList<BlogPost> like;*/
+    @Column
+    private ArrayList<Integer> likes;
 
     public User() {
     }
@@ -31,7 +32,7 @@ public class User {
         this.name = name;
         this.admin = admin;
         this.pass = pass;
-        //like = new ArrayList<>();
+        likes = new ArrayList<>();
     }
 
     public int getUserId() {
@@ -62,18 +63,27 @@ public class User {
         this.pass = pass;
     }
 
-    /**
-    public ArrayList<BlogPost> getLike() {
-        return like;
+
+    public ArrayList<Integer> getLikes() {
+        return likes;
     }
 
-    public void setLike(ArrayList<BlogPost> like) {
-        this.like = like;
+    public void setLikes(ArrayList<Integer> likes) {
+        this.likes = likes;
     }
 
-    public void addLike(BlogPost blogPost) {
-        like.add(blogPost);
-    }*/
+    public void addLikes(Integer id) {
+        likes.add(id);
+    }
+
+    public void deleteLikes(Integer id) {
+        for (int i = 0; i < likes.size(); i++) {
+            if (likes.get(i).equals(id)) {
+                likes.remove(i);
+                break;
+            }
+        }
+    }
 
     @Override
     public String toString() {
@@ -81,6 +91,8 @@ public class User {
                 "userId=" + userId +
                 ", name='" + name + '\'' +
                 ", admin=" + admin +
+                ", pass='" + pass + '\'' +
+                ", likes=" + likes +
                 '}';
     }
 }

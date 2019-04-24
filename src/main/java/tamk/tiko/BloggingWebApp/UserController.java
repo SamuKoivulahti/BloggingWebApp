@@ -16,7 +16,8 @@ public class UserController {
     UserRepository userRepository;
 
     @PostMapping("/users")
-    public ResponseEntity<Void> addUser(User user, UriComponentsBuilder builder) {
+    public ResponseEntity<Void> addUser(@RequestParam String name, @RequestParam boolean admin, @RequestParam String pass, UriComponentsBuilder builder) {
+        User user = new User(name, admin, pass);
         userRepository.save(user);
         UriComponents uriComponents = builder.path("users/{id}").buildAndExpand(user.getUserId());
 
@@ -48,6 +49,20 @@ public class UserController {
     @GetMapping("/users")
     public Iterable<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    @PostMapping("/blogs/like/{id:\\d}")
+    public void addLike(@PathVariable int id, @RequestParam String user, UriComponentsBuilder builder) {
+        User userLike = userRepository.findByNameEquals(user);
+        userLike.addLikes(id);
+        userRepository.save(userLike);
+    }
+
+    @DeleteMapping("/blogs/like/del/{id:\\d}")
+    public void deleteLike(@PathVariable Integer id, @RequestParam String user, UriComponentsBuilder builder) {
+        User userLike = userRepository.findByNameEquals(user);
+        userLike.deleteLikes(id);
+        userRepository.save(userLike);
     }
 
 }

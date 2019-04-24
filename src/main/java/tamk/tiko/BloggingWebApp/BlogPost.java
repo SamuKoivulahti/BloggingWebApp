@@ -3,6 +3,7 @@ package tamk.tiko.BloggingWebApp;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class BlogPost {
@@ -16,7 +17,7 @@ public class BlogPost {
     private String title;
     @Column
     private String content;
-    @Column
+    @Column(length = 10000)
     private ArrayList<String> comments;
 
     public BlogPost() {
