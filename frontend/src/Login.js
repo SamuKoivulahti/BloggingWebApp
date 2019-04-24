@@ -7,7 +7,7 @@ class Login extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {user: '', fetchedUser: [], showRegistration: false};
+    this.state = {user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: '', admin: "false"};
     this.usernameCheck = this.usernameCheck.bind(this);
     this.showRegister = this.showRegister.bind(this);
     this.confirmPassword = this.confirmPassword.bind(this);
@@ -15,23 +15,51 @@ class Login extends Component {
   }
 
   showRegister() {
-    this.setState({showRegistration: !this.state.showRegistration});
+    this.setState({showRegistration: !this.state.showRegistration, adminPass: '', passConfirm: '', admin: "false"});
   }
 
   confirmPassword() {
+    let MIN_PASSWORD_LENGTH = 8;
+    let MAX_PASSWORD_LENGTH = 160;
 
-  }
+    if (this.state.user.length < 3) {
+      alert("Username too short!");
+      return false;
+    }
 
-  addAdmin() {
+    if (this.state.pass !== this.state.passConfirm) {
+      alert("Passwords do not match!");
+      return false;
+    }
 
+    if (this.state.pass.length < MIN_PASSWORD_LENGTH || this.state.pass.length > MAX_PASSWORD_LENGTH) {
+      alert("Incorrect password length!");
+      return false;
+    }
+
+    if (this.state.adminPass === "admin") {
+      this.setState({admin: "true"});
+    } else if (this.state.adminPass === "") {
+
+    } else {
+      alert("Wrong admin pass! Empty the field if you are not admin!");
+      return false;
+    }
+
+    return true;
   }
 
   registerAccount() {
     let url = window.location.origin + "/users";
 
+    if (!this.confirmPassword()) {
+      return;
+    }
+
     let data = new FormData();
     data.append("name", this.state.user);
-    data.append("admin", false);
+    data.append("admin", this.state.admin);
+    data.append("pass", this.state.pass);
     fetch(url, {
                   method:"POST",
                   mode: "cors",
@@ -40,8 +68,9 @@ class Login extends Component {
                 }).then(response => console.log(response))
                   .catch(error => console.log(error));
     localStorage.setItem("user", this.state.user);
-    localStorage.setItem("admin", "false");
+    localStorage.setItem("admin", this.state.admin);
     localStorage.setItem("loggedin", "true");
+    this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: '', admin: "false"});
     window.location.reload();
   }
 
@@ -57,7 +86,7 @@ class Login extends Component {
     localStorage.setItem("loggedin", "false");
     localStorage.setItem("user", "");
     localStorage.setItem("admin", "");
-    this.setState({user: "", fetchedUser: [], showRegistration: false});
+    this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: '', admin: "false"});
     window.location.reload();
   }
 
@@ -70,9 +99,15 @@ class Login extends Component {
       if (this.state.fetchedUser[each].name === this.state.user) {
         if (loginAttempt) {
           console.log("LÖYTY");
+          if (this.state.pass !== this.state.fetchedUser[each].pass) {
+            alert("Wrong password!");
+            return;
+          }
+
           localStorage.setItem("user", this.state.user);
           localStorage.setItem("admin", this.state.fetchedUser[each].admin);
           localStorage.setItem("loggedin", "true");
+          this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: '', admin: "false"});
           window.location.reload();
           return;
         } else {
@@ -83,7 +118,9 @@ class Login extends Component {
     }
 
     if (loginAttempt) {
-
+      if (localStorage.getItem("loggedin") !== "true") {
+        alert("No user named " + this.state.user);
+      }
     } else {
       this.registerAccount();
     }
@@ -92,20 +129,20 @@ class Login extends Component {
   render() {
     return (
       <div>
-          {localStorage.getItem("loggedin") === "true" ? (<Button label="Log out" onClick={() => this.logout()}/>) :
+        {localStorage.getItem("loggedin") === "true" ? (<Button label="Log out" onClick={() => this.logout()}/>) :
           <div>
-          <div>
-            <InputText placeholder="Username" value={this.state.user} onChange={e => this.setState({user: e.target.value})}/>
-            {this.state.showRegistration ? (<InputText placeholder="Admin Password"/>) : ""}
+            <div>
+              <InputText placeholder="Username" value={this.state.user} onChange={e => this.setState({user: e.target.value})}/>
+              {this.state.showRegistration ? (<InputText placeholder="Admin Password" value={this.state.adminPass} onChange={e => this.setState({adminPass: e.target.value})}/>) : ""}
+            </div>
+            <div>
+              <InputText placeholder="Password" value={this.state.pass} onChange={e => this.setState({pass: e.target.value})}/>
+              {this.state.showRegistration ? (<InputText placeholder="Confirm password" value={this.state.passConfirm} onChange={e => this.setState({passConfirm: e.target.value})}/>) : ""}
+            </div>
+            {!this.state.showRegistration ? (<Button label="Login" onClick={() => this.usernameCheck(true)}/>) : (<Button label="Back" onClick={this.showRegister}/>)}
+            {!this.state.showRegistration ? (<Button label="Register" onClick={this.showRegister}/>) : (<Button label="Register" onClick={() => this.usernameCheck(false)}/>)}
           </div>
-          <div>
-            <InputText placeholder="Password"/>
-            {this.state.showRegistration ? (<InputText placeholder="Confirm password"/>) : ""}
-          </div>
-          {!this.state.showRegistration ? (<Button label="Login" onClick={() => this.usernameCheck(true)}/>) : (<Button label="Back" onClick={this.showRegister}/>)}
-          {!this.state.showRegistration ? (<Button label="Register" onClick={this.showRegister}/>) : (<Button label="Register" onClick={() => this.usernameCheck(false)}/>)}
-          </div>
-          }
+        }
       </div>
     );
   }
