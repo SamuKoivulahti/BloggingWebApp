@@ -18,15 +18,19 @@ public class User {
     @Column
     private boolean admin;
 
+    @Column
+    private String pass;
+
     /**@Column
     private ArrayList<BlogPost> like;*/
 
     public User() {
     }
 
-    public User(String name, boolean admin) {
+    public User(String name, boolean admin, String pass) {
         this.name = name;
         this.admin = admin;
+        this.pass = pass;
         //like = new ArrayList<>();
     }
 
@@ -48,6 +52,14 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     /**
