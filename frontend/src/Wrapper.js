@@ -19,7 +19,7 @@ function Wrapper() {
   return (
     <Router>
       <div>
-        <p>This is always</p>
+        <h1 className="logo">THIS IS ALWAYS</h1>
         <Switch>
             <Route path="/blogs/:blogId" component={SingleBlog} />
             <Route path="/blogs" component={Index} />
