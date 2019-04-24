@@ -73,6 +73,10 @@ public class BlogPost {
         comments.add(comment);
     }
 
+    public void deleteComment(int commentId) {
+        comments.remove(commentId);
+    }
+
     @Override
     public String toString() {
         return "BlogPost{" +
