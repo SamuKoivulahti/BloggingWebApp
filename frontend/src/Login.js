@@ -7,7 +7,7 @@ class Login extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: '', admin: "false"};
+    this.state = {user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: ''};
     this.usernameCheck = this.usernameCheck.bind(this);
     this.showRegister = this.showRegister.bind(this);
     this.confirmPassword = this.confirmPassword.bind(this);
@@ -15,50 +15,60 @@ class Login extends Component {
   }
 
   showRegister() {
-    this.setState({showRegistration: !this.state.showRegistration, adminPass: '', passConfirm: '', admin: "false"});
+    this.setState({showRegistration: !this.state.showRegistration, adminPass: '', passConfirm: ''});
   }
 
   confirmPassword() {
     let MIN_PASSWORD_LENGTH = 8;
     let MAX_PASSWORD_LENGTH = 160;
 
+    let success = {
+      admin: false,
+      success: false
+    }
+
     if (this.state.user.length < 3) {
       alert("Username too short!");
-      return false;
+      return success;
     }
 
     if (this.state.pass !== this.state.passConfirm) {
       alert("Passwords do not match!");
-      return false;
+      return success;
     }
 
     if (this.state.pass.length < MIN_PASSWORD_LENGTH || this.state.pass.length > MAX_PASSWORD_LENGTH) {
       alert("Incorrect password length!");
-      return false;
+      return success;
     }
 
     if (this.state.adminPass === "admin") {
-      this.setState({admin: "true"});
+      success.admin = true;
     } else if (this.state.adminPass === "") {
 
     } else {
       alert("Wrong admin pass! Empty the field if you are not admin!");
-      return false;
+      return success;
     }
 
-    return true;
+    success.success = true;
+
+    return success;
   }
 
   registerAccount() {
     let url = window.location.origin + "/users";
 
-    if (!this.confirmPassword()) {
+    let success = this.confirmPassword();
+
+    if (!success.success) {
       return;
     }
 
+    console.log(success.admin)
     let data = new FormData();
     data.append("name", this.state.user);
-    data.append("admin", this.state.admin);
+    data.append("admin", success.admin);
     data.append("pass", this.state.pass);
     fetch(url, {
                   method:"POST",
@@ -68,9 +78,9 @@ class Login extends Component {
                 }).then(response => console.log(response))
                   .catch(error => console.log(error));
     localStorage.setItem("user", this.state.user);
-    localStorage.setItem("admin", this.state.admin);
+    localStorage.setItem("admin", success.admin);
     localStorage.setItem("loggedin", "true");
-    this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: '', admin: "false"});
+    this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: ''});
     window.location.reload();
   }
 
@@ -86,7 +96,7 @@ class Login extends Component {
     localStorage.setItem("loggedin", "false");
     localStorage.setItem("user", "");
     localStorage.setItem("admin", "");
-    this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: '', admin: "false"});
+    this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: ''});
     window.location.reload();
   }
 
@@ -107,7 +117,7 @@ class Login extends Component {
           localStorage.setItem("user", this.state.user);
           localStorage.setItem("admin", this.state.fetchedUser[each].admin);
           localStorage.setItem("loggedin", "true");
-          this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: '', admin: "false"});
+          this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: ''});
           window.location.reload();
           return;
         } else {
