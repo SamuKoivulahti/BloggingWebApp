@@ -23,6 +23,36 @@
   color: #61dafb;
 }
 
+.logo {
+  text-shadow: 1px 1px red;
+  font-family: "Times New Roman", Times, serif;
+}
+
+body {
+  margin: 20px;
+}
+
+body .p-inputtext {
+  margin-left: 4px;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
+body .p-checkbox .p-checkbox-box {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.p-checkbox+label {
+  margin-left: 8px;
+}
+
+.buttonDiv {
+  margin-top: 4px;
+  margin-left: 4px;
+  float: left;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
