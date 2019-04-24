@@ -25,16 +25,19 @@ class SingleBlog extends Component {
           console.log(this.state)});
     }
 
+
+
     createCommentsList() {
-        return (<div>{this.state.comments.map(com => this.createComment(com))}</div>);
+        return (<div>{this.state.comments.map((com, index) => this.createComment(com, index))}</div>);
     }
 
-    createComment(com) {
-        return (<Panel>
+    createComment(com, id) {
+        return (<Panel style={{marginBottom: '1em'}, {marginTop: '1em'}}>
                     {com}
+                    {localStorage.getItem("admin") === "true" ?
+                      (<Button style={{float: 'right'}, {margin: '1em'}} className="p-button-danger p-button-rounded" icon="pi pi-times" onClick={e => this.deleteComment(id)}/>) : ("")}
                 </Panel>);
     }
-
 
     textNormal() {
         return (
@@ -55,6 +58,37 @@ class SingleBlog extends Component {
               {this.createCommentsList()}
           </div>
         );
+    }
+
+    deletePost() {
+      let url = window.location.origin;
+      fetch(`${url}/blogs/${this.state.id}`, {
+                    method:"DELETE",
+                    mode: "cors",
+                    credentials:"omit",
+                    body: ""
+                  }).then(response => console.log(response))
+                    .catch(error => console.log(error));
+              this.setState({show: false})
+              console.log(this.state)
+              window.location.assign("/");
+    }
+
+    deleteComment(id) {
+      let url = window.location.origin;
+
+      let data = new FormData();
+      data.append("commentId", id);
+      fetch(`${url}/blogs/deleteComment/${this.state.id}`, {
+             method:"DELETE",
+             mode: "cors",
+             credentials:"omit",
+             body: data
+           }).then(response => console.log(response))
+             .catch(error => console.log(error));
+        this.setState({show: false})
+        console.log(this.state)
+        window.location.reload();
     }
 
     addComment() {
@@ -118,7 +152,15 @@ class SingleBlog extends Component {
     }
 
     render() {
-        return (<div>{this.swicharoo()}</div>);
+        return (<div>
+            <div>
+              <Button label="Back" onClick={() => window.location.assign("/")}/>
+              {localStorage.getItem("admin") === "true" ? (<Button className="p-button-danger" label="DELETE" onClick={() => this.deletePost()}/>) : ("")}
+            </div>
+            <div>
+              {this.swicharoo()}
+            </div>
+          </div>);
     }
 }
 
