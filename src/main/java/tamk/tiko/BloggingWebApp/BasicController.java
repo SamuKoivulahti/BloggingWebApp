@@ -83,4 +83,14 @@ public class BasicController {
 
         return getVoidResponseEntity(builder, blogPost, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/blogs/deleteComment/{id:\\d}")
+    public ResponseEntity<Void> deleteComment(@PathVariable int id, @RequestParam int commentId) {
+        Optional<BlogPost> optionalBlogPost = repository.findById(id);
+        BlogPost blogPost = optionalBlogPost.get();
+        blogPost.deleteComment(commentId);
+        repository.save(blogPost);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
