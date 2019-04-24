@@ -65,7 +65,7 @@ class Login extends Component {
       return;
     }
 
-    console.log(success.admin)
+    console.log(this.state)
     let data = new FormData();
     data.append("name", this.state.user);
     data.append("admin", success.admin);
@@ -81,7 +81,7 @@ class Login extends Component {
     localStorage.setItem("admin", success.admin);
     localStorage.setItem("loggedin", "true");
     this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: ''});
-    window.location.reload();
+    alert("Update page, POST is a bitch and we suck!");
   }
 
   usernameCheck(loginAttempt) {
@@ -92,12 +92,15 @@ class Login extends Component {
         .then(data => this.setState({fetchedUser: data},() => this.check(loginAttempt)));
   }
 
+  reload() {
+    window.location.reload();
+  }
+
   logout() {
     localStorage.setItem("loggedin", "false");
     localStorage.setItem("user", "");
     localStorage.setItem("admin", "");
-    this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: ''});
-    window.location.reload();
+    this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: ''}, () => this.reload());
   }
 
   check(loginAttempt) {
@@ -117,8 +120,7 @@ class Login extends Component {
           localStorage.setItem("user", this.state.user);
           localStorage.setItem("admin", this.state.fetchedUser[each].admin);
           localStorage.setItem("loggedin", "true");
-          this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: ''});
-          window.location.reload();
+          this.setState({user: '', fetchedUser: [], showRegistration: false, adminPass: '', pass: '', passConfirm: ''}, () => this.reload());
           return;
         } else {
           alert("Username already exists, choose another!");
@@ -139,7 +141,7 @@ class Login extends Component {
   render() {
     return (
       <div>
-        {localStorage.getItem("loggedin") === "true" ? (<Button label="Log out" onClick={() => this.logout()}/>) :
+        {localStorage.getItem("loggedin") === "true" ? (<div className="buttonDiv"><Button label="Log out" onClick={() => this.logout()}/></div>) :
           <div>
             <div>
               <InputText placeholder="Username" value={this.state.user} onChange={e => this.setState({user: e.target.value})}/>
@@ -149,8 +151,10 @@ class Login extends Component {
               <InputText placeholder="Password" value={this.state.pass} onChange={e => this.setState({pass: e.target.value})}/>
               {this.state.showRegistration ? (<InputText placeholder="Confirm password" value={this.state.passConfirm} onChange={e => this.setState({passConfirm: e.target.value})}/>) : ""}
             </div>
-            {!this.state.showRegistration ? (<Button label="Login" onClick={() => this.usernameCheck(true)}/>) : (<Button label="Back" onClick={this.showRegister}/>)}
-            {!this.state.showRegistration ? (<Button label="Register" onClick={this.showRegister}/>) : (<Button label="Register" onClick={() => this.usernameCheck(false)}/>)}
+            {!this.state.showRegistration ? (<div className="buttonDiv"><Button label="Login" onClick={() => this.usernameCheck(true)}/></div>) :
+             (<div className="buttonDiv"><Button label="Back" onClick={this.showRegister}/></div>)}
+            {!this.state.showRegistration ? (<div className="buttonDiv"><Button label="Register" onClick={this.showRegister}/></div>) :
+             (<div className="buttonDiv"><Button label="Register" onClick={() => this.usernameCheck(false)}/></div>)}
           </div>
         }
       </div>
